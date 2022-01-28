@@ -21,6 +21,7 @@
     "@types/uuid": "^8.3.4"
   },
   "dependencies": {
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "2.7.0-alpha.0",
     "@serverless-stack/cli": "0.60.6",
     "@serverless-stack/resources": "0.60.6",
     "aws-cdk-lib": "2.7.0",
