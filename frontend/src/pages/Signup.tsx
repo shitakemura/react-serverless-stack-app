@@ -25,7 +25,7 @@ const Signup = () => {
   const [newUser, setNewUser] = useState<ISignUpResult | null>(null);
   const { userHasAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<any>(null);
 
   const validateForm = () => {
     return (

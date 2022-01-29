@@ -19,7 +19,7 @@ const Login = () => {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<any>(null);
 
   const { userHasAuthenticated } = useAppContext();
   const navigate = useNavigate();
