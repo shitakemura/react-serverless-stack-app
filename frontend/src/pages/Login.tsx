@@ -51,9 +51,10 @@ const Login = () => {
           <Box paddingBottom={4}>
             <FormLabel>Email</FormLabel>
             <Input
+              autoFocus
+              type='email'
               id='email'
               placeholder='email'
-              type='text'
               value={fields.email}
               onChange={handleFieldChange}
             />
@@ -61,9 +62,9 @@ const Login = () => {
           <Box paddingBottom={8}>
             <FormLabel>Password</FormLabel>
             <Input
+              type='password'
               id='password'
               placeholder='password'
-              type='password'
               value={fields.password}
               onChange={handleFieldChange}
             />
