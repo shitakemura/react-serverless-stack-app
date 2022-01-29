@@ -1,4 +1,4 @@
-import { Stack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { Todo as TodoType } from "../../models/Todo";
 import Todo from "./Todo";
 
@@ -8,11 +8,11 @@ type TodoListProps = {
 
 const TodoList = ({ todos }: TodoListProps) => {
   return (
-    <Stack>
+    <VStack paddingX={8}>
       {todos.map((todo) => (
         <Todo key={todo.todoId} todo={todo} />
       ))}
-    </Stack>
+    </VStack>
   );
 };
 

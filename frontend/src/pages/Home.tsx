@@ -42,7 +42,7 @@ const Home = () => {
   }
 
   return (
-    <VStack alignItems='center'>
+    <VStack alignItems='flex-start'>
       {error && <ErrorBanner error={error} closeError={() => setError(null)} />}
       <TodoList todos={todos} />
     </VStack>

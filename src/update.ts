@@ -14,9 +14,9 @@ export const main = async (event: APIGatewayProxyEvent) => {
       userId: auth.sub,
       todoId: event.pathParameters?.id,
     },
-    UpdateExpression: "SET content = :content, completed = := completed",
+    UpdateExpression: "SET content = :content, completed = :completed",
     ExpressionAttributeValues: {
-      ":text": data.text || null,
+      ":content": data.content || null,
       ":completed": data.completed || false,
     },
     ReturnValues: "ALL_NEW",
