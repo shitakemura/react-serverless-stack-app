@@ -10,10 +10,14 @@ import { useState } from "react";
 import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/useAppContext";
 import { useNavigate } from "react-router-dom";
+import ErrorBanner from "../components/ErrorBanner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
   const { userHasAuthenticated } = useAppContext();
   const navigate = useNavigate();
 
@@ -23,18 +27,22 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       await Auth.signIn(email, password);
       userHasAuthenticated(true);
       navigate("/");
-    } catch (e: any) {
-      alert(e.message);
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Stack p={4}>
+      {error && <ErrorBanner error={error} closeError={() => setError(null)} />}
       <form onSubmit={handleSubmit}>
         <FormControl>
           <Box paddingBottom={4}>
@@ -61,7 +69,8 @@ const Login = () => {
           backgroundColor='blue.200'
           color='white'
           disabled={!validateForm()}
-          w='full'>
+          w='full'
+          isLoading={isLoading}>
           Login
         </Button>
       </form>
