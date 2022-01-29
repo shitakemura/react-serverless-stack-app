@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text, HStack, Checkbox } from "@chakra-ui/react";
-import { updateTodo } from "../../lib/api";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { deleteTodo, updateTodo } from "../../lib/api";
 import { Todo as TodoType } from "../../models/Todo";
 
 type TodoProps = {
@@ -9,7 +10,7 @@ type TodoProps = {
 
 const Todo = ({ todo }: TodoProps) => {
   const [checked, setChecked] = useState(todo.completed);
-  const [_, setError] = useState<any>(null);
+  const [, setError] = useState<any>(null);
 
   useEffect(() => {
     const update = async () => {
@@ -26,13 +27,22 @@ const Todo = ({ todo }: TodoProps) => {
     update();
   }, [checked, todo.content, todo.todoId]);
 
+  const handleDelete = async () => {
+    try {
+      await deleteTodo(todo.todoId);
+    } catch (error: any) {
+      setError(error);
+    }
+  };
+
   return (
-    <HStack spacing={5}>
+    <HStack paddingY={4}>
       <Checkbox
         isChecked={checked}
         onChange={() => setChecked((checked) => !checked)}
       />
       <Text>{todo.content}</Text>
+      <DeleteIcon onClick={handleDelete} />
     </HStack>
   );
 };

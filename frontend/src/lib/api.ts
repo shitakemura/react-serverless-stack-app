@@ -25,3 +25,9 @@ export const updateTodo = async (id: string, body: BaseTodo) => {
   console.log(JSON.stringify(init));
   return await API.put(apiName, path, init);
 };
+
+export const deleteTodo = async (id: string) => {
+  const path = `/todos/${id}`;
+  const init = { headers: await authHeader() };
+  return await API.del(apiName, path, init);
+};

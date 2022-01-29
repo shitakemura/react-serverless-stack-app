@@ -8,7 +8,7 @@ type TodoListProps = {
 
 const TodoList = ({ todos }: TodoListProps) => {
   return (
-    <VStack paddingX={8}>
+    <VStack paddingX={8} alignItems='flex-start'>
       {todos.map((todo) => (
         <Todo key={todo.todoId} todo={todo} />
       ))}
