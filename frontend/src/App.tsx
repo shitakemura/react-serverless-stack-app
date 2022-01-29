@@ -1,11 +1,14 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
+import NavBar from "./components/NavBar";
+import PageRoutes from "./PageRoutes";
 
-function App() {
+const App = () => {
   return (
-    <Box>
-      <Text color='blue.500'>Todo App</Text>
-    </Box>
+    <Container maxW='container.xl' p={0}>
+      <NavBar />
+      <PageRoutes />
+    </Container>
   );
-}
+};
 
 export default App;
