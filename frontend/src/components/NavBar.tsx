@@ -1,5 +1,6 @@
 import { Flex, HStack, Text, Link, Box } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/useAppContext";
 
 const NavBar = () => {
@@ -39,7 +40,8 @@ const NavBarContainer = ({ children }: NavBarContainerProps) => {
 const MenuLinks = () => {
   const { isAuthenticated, userHasAuthenticated } = useAppContext();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await Auth.signOut();
     userHasAuthenticated(false);
   };
 
