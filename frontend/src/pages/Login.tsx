@@ -9,11 +9,13 @@ import {
 import { useState } from "react";
 import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/useAppContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { userHasAuthenticated } = useAppContext();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
@@ -25,6 +27,7 @@ const Login = () => {
     try {
       await Auth.signIn(email, password);
       userHasAuthenticated(true);
+      navigate("/");
     } catch (e: any) {
       alert(e.message);
     }

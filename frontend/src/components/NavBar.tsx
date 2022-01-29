@@ -39,10 +39,12 @@ const NavBarContainer = ({ children }: NavBarContainerProps) => {
 
 const MenuLinks = () => {
   const { isAuthenticated, userHasAuthenticated } = useAppContext();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await Auth.signOut();
     userHasAuthenticated(false);
+    navigate("/login");
   };
 
   return (
