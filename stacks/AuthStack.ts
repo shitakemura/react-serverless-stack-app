@@ -11,9 +11,9 @@ export default class AuthStack extends sst.Stack {
         userPool: {
           signInAliases: { email: true },
         },
-        userPoolClient: {
-          authFlows: { userPassword: true },
-        },
+        // userPoolClient: {
+        //   authFlows: { userPassword: true },
+        // },
       },
     });
 

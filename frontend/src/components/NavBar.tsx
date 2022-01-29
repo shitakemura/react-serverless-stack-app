@@ -1,5 +1,6 @@
-import { Flex, HStack, Text, Link } from "@chakra-ui/react";
+import { Flex, HStack, Text, Link, Box } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { useAppContext } from "../lib/useAppContext";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -36,15 +37,29 @@ const NavBarContainer = ({ children }: NavBarContainerProps) => {
 };
 
 const MenuLinks = () => {
+  const { isAuthenticated, userHasAuthenticated } = useAppContext();
+
+  const handleLogout = () => {
+    userHasAuthenticated(false);
+  };
+
   return (
-    <HStack spacing={8} align='center' justify='center'>
-      <Link as={ReactRouterLink} to='/signup'>
-        <Text fontWeight='bold'>Signup</Text>
-      </Link>
-      <Link as={ReactRouterLink} to='/login'>
-        <Text fontWeight='bold'>Login</Text>
-      </Link>
-    </HStack>
+    <Box>
+      {isAuthenticated ? (
+        <Text fontWeight='bold' onClick={handleLogout}>
+          Logout
+        </Text>
+      ) : (
+        <HStack spacing={8} align='center' justify='center'>
+          <Link as={ReactRouterLink} to='/signup'>
+            <Text fontWeight='bold'>Signup</Text>
+          </Link>
+          <Link as={ReactRouterLink} to='/login'>
+            <Text fontWeight='bold'>Login</Text>
+          </Link>
+        </HStack>
+      )}
+    </Box>
   );
 };
 
