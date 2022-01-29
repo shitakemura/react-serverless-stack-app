@@ -11,10 +11,13 @@ import { Auth } from "aws-amplify";
 import { useAppContext } from "../lib/useAppContext";
 import { useNavigate } from "react-router-dom";
 import ErrorBanner from "../components/ErrorBanner";
+import { useFormFields } from "../lib/useFormFields";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { fields, handleFieldChange } = useFormFields({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -22,7 +25,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    return email.length > 0 && password.length > 0;
+    return fields.email.length > 0 && fields.password.length > 0;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,7 +33,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      await Auth.signIn(email, password);
+      await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
       navigate("/");
     } catch (error: any) {
@@ -50,8 +53,9 @@ const Login = () => {
             <Input
               id='email'
               placeholder='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type='text'
+              value={fields.email}
+              onChange={handleFieldChange}
             />
           </Box>
           <Box paddingBottom={8}>
@@ -59,8 +63,9 @@ const Login = () => {
             <Input
               id='password'
               placeholder='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type='password'
+              value={fields.password}
+              onChange={handleFieldChange}
             />
           </Box>
         </FormControl>
