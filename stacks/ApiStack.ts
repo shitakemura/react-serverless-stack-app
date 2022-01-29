@@ -1,7 +1,6 @@
 import * as sst from "@serverless-stack/resources";
 import * as apigAuthorizers from "@aws-cdk/aws-apigatewayv2-authorizers-alpha";
 import * as cognito from "aws-cdk-lib/aws-cognito";
-import { UserPoolClient } from "aws-cdk-lib/aws-cognito";
 
 interface ApiStackProps extends sst.StackProps {
   auth: sst.Auth;

@@ -14,7 +14,8 @@ export const main = async (event: APIGatewayProxyEvent) => {
     Item: {
       userId: auth.sub,
       todoId: uuid.v1(),
-      content: data.content,
+      text: data.content,
+      completed: false,
       createdAt: Date.now(), // current Unix timestamp
     },
   };

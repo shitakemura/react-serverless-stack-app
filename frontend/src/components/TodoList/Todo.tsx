@@ -8,7 +8,7 @@ type TodoProps = {
 const Todo = ({ todo }: TodoProps) => {
   return (
     <Box>
-      <Text>{todo.content}</Text>
+      <Text>{todo.text}</Text>
     </Box>
   );
 };

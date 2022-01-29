@@ -14,9 +14,10 @@ export const main = async (event: APIGatewayProxyEvent) => {
       userId: auth.sub,
       todoId: event.pathParameters?.id,
     },
-    UpdateExpression: "SET content = :content",
+    UpdateExpression: "SET content = :content, completed = := completed",
     ExpressionAttributeValues: {
-      ":content": data.content || null,
+      ":text": data.text || null,
+      ":completed": data.completed || false,
     },
     ReturnValues: "ALL_NEW",
   };

@@ -5,5 +5,6 @@ export type Todo = {
 } & BaseTodo;
 
 export type BaseTodo = {
-  content: string;
+  text: string;
+  completed: boolean;
 };
