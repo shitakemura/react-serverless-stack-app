@@ -23,7 +23,7 @@ export const main = async (event: APIGatewayProxyEvent) => {
   };
 
   try {
-    await dynamoDb.update(params).promise();
+    const result = await dynamoDb.update(params).promise();
 
     return {
       statusCode: 200,
@@ -31,7 +31,7 @@ export const main = async (event: APIGatewayProxyEvent) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      body: JSON.stringify({ status: true }),
+      body: JSON.stringify(result.Attributes),
     };
   } catch (e: any) {
     return {

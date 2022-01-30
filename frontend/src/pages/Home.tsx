@@ -1,34 +1,18 @@
-import { useEffect, useState } from "react";
 import { Text, VStack, Heading } from "@chakra-ui/react";
 import TodoList from "../components/TodoList/TodoList";
-import { Todo } from "../models/Todo";
 import { useAppContext } from "../lib/useAppContext";
 import ErrorBanner from "../components/ErrorBanner";
-import { getTodos } from "../lib/api";
+import { useTodos } from "../lib/useTodos";
+import { useEffect } from "react";
 
 const Home = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const { isAuthenticated } = useAppContext();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const { todos, isLoading, error, getTodos, clearError } = useTodos();
 
   useEffect(() => {
-    const onLoad = async () => {
-      if (!isAuthenticated) return;
-
-      setIsLoading(true);
-      try {
-        const todos = await getTodos();
-        setTodos(todos);
-      } catch (error: any) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    onLoad();
-  }, [isAuthenticated]);
+    if (!isAuthenticated) return;
+    getTodos();
+  }, [isAuthenticated, getTodos]);
 
   if (isLoading) return null;
 
@@ -43,7 +27,7 @@ const Home = () => {
 
   return (
     <VStack alignItems='flex-start'>
-      {error && <ErrorBanner error={error} closeError={() => setError(null)} />}
+      {error && <ErrorBanner error={error} closeError={clearError} />}
       <TodoList todos={todos} />
     </VStack>
   );

@@ -1,48 +1,27 @@
-import { useEffect, useState } from "react";
 import { Text, HStack, Checkbox } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { deleteTodo, updateTodo } from "../../lib/api";
 import { Todo as TodoType } from "../../models/Todo";
+import { useTodos } from "../../lib/useTodos";
 
 type TodoProps = {
   todo: TodoType;
 };
 
 const Todo = ({ todo }: TodoProps) => {
-  const [checked, setChecked] = useState(todo.completed);
-  const [, setError] = useState<any>(null);
+  const { updateTodo, deleteTodo } = useTodos();
 
-  useEffect(() => {
-    const update = async () => {
-      try {
-        await updateTodo(todo.todoId, {
-          content: todo.content,
-          completed: checked,
-        });
-      } catch (error: any) {
-        setError(error);
-      }
-    };
-
-    update();
-  }, [checked, todo.content, todo.todoId]);
-
-  const handleDelete = async () => {
-    try {
-      await deleteTodo(todo.todoId);
-    } catch (error: any) {
-      setError(error);
-    }
+  const handleChange = () => {
+    updateTodo(todo.todoId, {
+      content: todo.content,
+      completed: !todo.completed,
+    });
   };
 
   return (
     <HStack paddingY={4}>
-      <Checkbox
-        isChecked={checked}
-        onChange={() => setChecked((checked) => !checked)}
-      />
+      <Checkbox isChecked={todo.completed} onChange={handleChange} />
       <Text>{todo.content}</Text>
-      <DeleteIcon onClick={handleDelete} />
+      <DeleteIcon onClick={() => deleteTodo(todo.todoId)} />
     </HStack>
   );
 };
