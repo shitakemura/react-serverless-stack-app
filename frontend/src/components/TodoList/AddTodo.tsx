@@ -2,7 +2,7 @@ import { Button, HStack, Input } from "@chakra-ui/react";
 import { useTodos } from "../../lib/useTodos";
 
 const AddTodo = () => {
-  const { newTodoContent, isLoading, setNewTodoContent, addTodo } = useTodos();
+  const { newTodoContent, addLoading, setNewTodoContent, addTodo } = useTodos();
 
   return (
     <HStack>
@@ -10,7 +10,7 @@ const AddTodo = () => {
         value={newTodoContent}
         onChange={(e) => setNewTodoContent(e.target.value)}
       />
-      <Button onClick={addTodo} isLoading={isLoading}>
+      <Button onClick={addTodo} isLoading={addLoading}>
         Add Todo
       </Button>
     </HStack>

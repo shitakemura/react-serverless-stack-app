@@ -40,3 +40,9 @@ export const deleteTodo = async (id: string) => {
   const init = { headers: await authHeader() };
   return await API.del(apiName, path, init);
 };
+
+export const clearTodos = async () => {
+  const path = "/todos";
+  const init = { headers: await authHeader() };
+  return await API.del(apiName, path, init);
+};

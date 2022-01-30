@@ -11,13 +11,15 @@ import * as API from "./api";
 type TodosContextType = {
   todos: Todo[];
   newTodoContent: string;
-  isLoading: boolean;
+  getLoading: boolean;
+  addLoading: boolean;
   error: any;
   setNewTodoContent: (todoContent: string) => void;
   getTodos: () => void;
   addTodo: () => void;
   updateTodo: (todoId: string, base: BaseTodo) => void;
   deleteTodo: (todoId: string) => void;
+  clearTodos: () => void;
   clearError: () => void;
 };
 
@@ -26,25 +28,26 @@ const TodosContext = createContext({} as TodosContextType);
 export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoContent, setNewTodoContent] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const getTodos = useCallback(async () => {
     console.log(`fetchTodos`);
-    setIsLoading(true);
+    setGetLoading(true);
     try {
       const todos = await API.getTodos();
       setTodos(todos);
     } catch (error: any) {
       setError(error);
     } finally {
-      setIsLoading(false);
+      setGetLoading(false);
     }
   }, []);
 
   const addTodo = async () => {
     console.log(`addTodo`);
-    setIsLoading(true);
+    setAddLoading(true);
     try {
       const newTodo = await API.addTodo(newTodoContent);
       setTodos([...todos, newTodo]);
@@ -52,7 +55,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     } catch (error: any) {
       setError(error);
     } finally {
-      setIsLoading(false);
+      setAddLoading(false);
     }
   };
 
@@ -84,7 +87,18 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     }
   };
 
-  // const clearTodo = () => {};
+  const clearTodos = () => {
+    console.log(`clearTodos`);
+    todos.forEach(async (todo) => {
+      console.log(`deleteTodo`);
+      try {
+        await API.deleteTodo(todo.todoId);
+        setTodos([]);
+      } catch (error: any) {
+        setError(error);
+      }
+    });
+  };
 
   const clearError = () => {
     setError(null);
@@ -95,13 +109,15 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
       value={{
         todos,
         newTodoContent,
-        isLoading,
+        getLoading,
+        addLoading,
         error,
         setNewTodoContent,
         getTodos,
         addTodo,
         updateTodo,
         deleteTodo,
+        clearTodos,
         clearError,
       }}>
       {children}
