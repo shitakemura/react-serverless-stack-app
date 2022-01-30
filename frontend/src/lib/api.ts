@@ -16,13 +16,22 @@ export const getTodos = async () => {
   return await API.get(apiName, path, init);
 };
 
+export const addTodo = async (content: string) => {
+  const path = "/todos";
+  const init = {
+    headers: await authHeader(),
+    body: { content },
+  };
+  console.log(JSON.stringify(init));
+  return await API.post(apiName, path, init);
+};
+
 export const updateTodo = async (id: string, body: BaseTodo) => {
   const path = `/todos/${id}`;
   const init = {
     headers: await authHeader(),
     body,
   };
-  console.log(JSON.stringify(init));
   return await API.put(apiName, path, init);
 };
 

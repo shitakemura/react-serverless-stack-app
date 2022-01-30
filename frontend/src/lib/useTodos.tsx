@@ -10,10 +10,12 @@ import * as API from "./api";
 
 type TodosContextType = {
   todos: Todo[];
+  newTodoContent: string;
   isLoading: boolean;
   error: any;
+  setNewTodoContent: (todoContent: string) => void;
   getTodos: () => void;
-  addTodo: (todo: Todo) => void;
+  addTodo: () => void;
   updateTodo: (todoId: string, base: BaseTodo) => void;
   deleteTodo: (todoId: string) => void;
   clearError: () => void;
@@ -23,6 +25,7 @@ const TodosContext = createContext({} as TodosContextType);
 
 export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [newTodoContent, setNewTodoContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -39,7 +42,19 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     }
   }, []);
 
-  const addTodo = useCallback((todo: Todo) => {}, []);
+  const addTodo = async () => {
+    console.log(`addTodo`);
+    setIsLoading(true);
+    try {
+      const newTodo = await API.addTodo(newTodoContent);
+      setTodos([...todos, newTodo]);
+      setNewTodoContent("");
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const updateTodo = async (todoId: string, body: BaseTodo) => {
     console.log(`updateTodo`);
@@ -79,8 +94,10 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     <TodosContext.Provider
       value={{
         todos,
+        newTodoContent,
         isLoading,
         error,
+        setNewTodoContent,
         getTodos,
         addTodo,
         updateTodo,

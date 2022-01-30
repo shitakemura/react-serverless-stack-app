@@ -4,17 +4,16 @@ import { useAppContext } from "../lib/useAppContext";
 import ErrorBanner from "../components/ErrorBanner";
 import { useTodos } from "../lib/useTodos";
 import { useEffect } from "react";
+import AddTodo from "../components/TodoList/AddTodo";
 
 const Home = () => {
   const { isAuthenticated } = useAppContext();
-  const { todos, isLoading, error, getTodos, clearError } = useTodos();
+  const { todos, error, getTodos, clearError } = useTodos();
 
   useEffect(() => {
     if (!isAuthenticated) return;
     getTodos();
   }, [isAuthenticated, getTodos]);
-
-  if (isLoading) return null;
 
   if (!isAuthenticated) {
     return (
@@ -26,8 +25,9 @@ const Home = () => {
   }
 
   return (
-    <VStack alignItems='flex-start'>
+    <VStack paddingX={8} alignItems='flex-start'>
       {error && <ErrorBanner error={error} closeError={clearError} />}
+      <AddTodo />
       <TodoList todos={todos} />
     </VStack>
   );
